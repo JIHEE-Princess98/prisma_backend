@@ -1,6 +1,7 @@
 import {
   loginService,
   reissueAccessTokenService,
+  logoutService,
 } from "../services/authService.js";
 import { resultFormat } from "../utils/requestUtil.js";
 
@@ -69,6 +70,33 @@ export const reissueToken_Cltr = async (req, res) => {
         title: "토큰 재발급",
         success: false,
         message: error.message,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "로그아웃"
+ * URL : /api/auth/logout
+ */
+export const logout_Ctler = async (req, res) => {
+  const { USER_ID } = req.params;
+
+  try {
+    await logoutService(USER_ID);
+    res.status(200).json(
+      resultFormat({
+        title: "로그아웃",
+        success: true,
+        message: "로그아웃 되었습니다.",
+      })
+    );
+  } catch (error) {
+    res.status(400).json(
+      resultFormat({
+        title: "로그아웃",
+        success: false,
+        message: `로그아웃 실패 : ${error.message}`,
       })
     );
   }

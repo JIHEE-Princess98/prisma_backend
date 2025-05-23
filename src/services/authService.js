@@ -8,6 +8,7 @@ import {
 import * as authModel from "../models/authModel";
 import { getKoreaTime } from "../utils/dateUtil";
 
+//로그인
 export const loginService = async (USER_ID, USER_PS) => {
   const user = await authModel.findUserById(USER_ID);
   if (!user) throw new Error("존재하지 않는 사용자입니다.");
@@ -46,4 +47,21 @@ export const reissueAccessTokenService = async (refreshToken) => {
   });
 
   return newAccessToken;
+};
+
+//로그아웃
+export const logoutService = async (USER_ID) => {
+  const now = getKoreaTime();
+  const userToken = await authModel.findRefreshToken(USER_ID, now);
+
+  if (!userToken) {
+    const error = new Error(
+      "이미 로그아웃되었거나 존재하지 않는 사용자 입니다."
+    );
+    error.status = 400;
+    throw error;
+  }
+
+  await authModel.deleteRefreshToken(USER_ID);
+  return true;
 };
