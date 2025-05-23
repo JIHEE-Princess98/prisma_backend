@@ -2,7 +2,9 @@ import {
   loginService,
   reissueAccessTokenService,
   logoutService,
+  createAuthService,
 } from "../services/authService.js";
+import * as authModel from "../models/authModel";
 import { resultFormat } from "../utils/requestUtil.js";
 
 /***
@@ -97,6 +99,63 @@ export const logout_Ctler = async (req, res) => {
         title: "로그아웃",
         success: false,
         message: `로그아웃 실패 : ${error.message}`,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "권한 생성"
+ * URL : /api/auth/insert
+ */
+export const createAuth_Ctler = async (req, res) => {
+  const authData = req.body;
+  const createdBy = req.user?.USER_ID || "test";
+
+  try {
+    const newAuth = await createAuthService(authData, createdBy);
+    res.status(201).json(
+      resultFormat({
+        title: "권한 생성",
+        success: true,
+        message: "권한이 생성되었습니다.",
+        data: newAuth,
+      })
+    );
+  } catch (error) {
+    res.status(500).json(
+      resultFormat({
+        title: "권한 생성 실패",
+        success: false,
+        message: `권한 생성 실패 : ${error.message}`,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "권한 조회"
+ * URL : /api/auth/list
+ */
+export const findAllAuth_Ctler = async (req, res) => {
+  try {
+    const auth = await authModel.findAllAuth();
+
+    res.status(200).json(
+      resultFormat({
+        title: "권한 목록 조회",
+        success: true,
+        message: "사용자 목록을 가져왔습니다.",
+        data: auth,
+        total: auth.length,
+      })
+    );
+  } catch (error) {
+    res.status(500).json(
+      resultFormat({
+        title: "권한 목록 조회",
+        success: false,
+        message: `권한 조회 실패 : ${error.message}`,
       })
     );
   }

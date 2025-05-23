@@ -61,3 +61,33 @@ export const createAuth = (authData) => {
     data: authData,
   });
 };
+
+// 마지막 코드 조회
+export const getListAuthCnt = async () => {
+  const last = await prisma.tb_mes_auth000.findFirst({
+    orderBy: {
+      GRP_AUTH_CD: "desc",
+    },
+    where: {
+      GRP_AUTH_CD: {
+        startsWith: "AUTH", // 안전하게 필터
+      },
+    },
+  });
+
+  return last?.GRP_AUTH_CD || null;
+};
+
+// 권한 조회
+export const findAllAuth = () => {
+  return prisma.tb_mes_auth000.findMany({
+    where: { DEL_YN: "N" },
+    orderBy: { CREATED_AT: "desc" },
+    select: {
+      GRP_AUTH_CD: true,
+      GRP_AUTH_NM: true,
+      GRP_AUTH_RMRK: true,
+      USE_YN: true,
+    },
+  });
+};

@@ -65,3 +65,27 @@ export const logoutService = async (USER_ID) => {
   await authModel.deleteRefreshToken(USER_ID);
   return true;
 };
+
+// 권한 생성
+export const createAuthService = async (authData, createdBy) => {
+  const lastCode = await authModel.getListAuthCnt();
+  const nextNumber = lastCode
+    ? parseInt(lastCode.replace("AUTH", ""), 10) + 1
+    : 1;
+  const newCode = "AUTH" + String(nextNumber).padStart(3, "0");
+
+  const now = getKoreaTime();
+
+  const newAuthData = {
+    GRP_AUTH_CD: newCode,
+    ...authData,
+    DEL_YN: "N",
+    USE_YN: "Y",
+    CREATED_AT: now,
+    CREATED_BY: createdBy,
+    UPDATED_AT: now,
+    UPDATED_BY: null,
+  };
+
+  return await authModel.createAuth(newAuthData);
+};
