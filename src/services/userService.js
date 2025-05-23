@@ -66,6 +66,6 @@ export const updatePasswordService = async (USER_ID, USER_PS) => {
     throw error;
   }
 
-  const hashedNewPw = await bcrypt.hash(USER_PS, 10);
-  return await userModel.updatePassword(USER_ID, hashedNewPw, getKoreaTime());
+  const hashedNPw = await bcrypt.hash(USER_PS, 10);
+  return await userModel.updatePassword(USER_ID, hashedNPw, getKoreaTime());
 };

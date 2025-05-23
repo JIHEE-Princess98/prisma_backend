@@ -107,7 +107,7 @@ model tb_mes_user000 {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_mes_user100 {
   USER_ID       String    @id @db.VarChar(50)
-  REFRESH_TOKEN String?   @db.VarChar(200)
+  REFRESH_TOKEN String?   @db.VarChar(500)
   EXPIRED_AT    DateTime? @db.DateTime(0)
   CREATED_AT    DateTime? @default(now()) @db.DateTime(0)
   UPDATED_AT    DateTime? @default(now()) @db.DateTime(0)
