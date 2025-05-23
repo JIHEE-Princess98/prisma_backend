@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_auth000 {
+  GRP_AUTH_CD   String    @id @db.VarChar(50)
+  GRP_AUTH_NM   String    @db.VarChar(100)
+  GRP_AUTH_TYPE String?   @default("USER") @db.VarChar(50)
+  GRP_AUTH_RMRK String?   @db.VarChar(2000)
+  USE_YN        String?   @default("Y") @db.Char(1)
+  DEL_YN        String?   @default("N") @db.Char(1)
+  CREATED_AT    DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY    String?   @db.VarChar(50)
+  UPDATED_AT    DateTime? @default(now()) @db.DateTime(0)
+  UPDATED_BY    String?   @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_auth010 {
+  GRP_AUTH_CD String    @db.VarChar(50)
+  USER_ID     String    @db.VarChar(50)
+  CREATED_AT  DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY  String?   @db.VarChar(50)
+
+  @@id([GRP_AUTH_CD, USER_ID])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_auth020 {
+  GRP_AUTH_CD String    @db.VarChar(50)
+  MENU_CD     String    @db.VarChar(50)
+  CREATED_AT  DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY  String?   @db.VarChar(50)
+
+  @@id([GRP_AUTH_CD, MENU_CD])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_cust000 {
+  CNPT_CD              String    @id @db.VarChar(50)
+  CNPT_NM              String    @db.VarChar(50)
+  CEO_NM               String?   @db.VarChar(50)
+  CNPT_TEL             String?   @db.VarChar(11)
+  CNPT_EMAIL           String?   @db.VarChar(50)
+  BRNO                 String?   @db.VarChar(10)
+  CNPT_ADDR            String?   @db.VarChar(200)
+  CNPT_DADDR           String?   @db.VarChar(200)
+  CNPT_PIC_NM          String?   @db.VarChar(50)
+  CNPT_PIC_DEPT_NM     String?   @db.VarChar(50)
+  CNPT_PIC_JBPS_NM     String?   @db.VarChar(50)
+  CNPT_PIC_TEL         String?   @db.VarChar(50)
+  CNPT_PIC_EMAIL       String?   @db.VarChar(50)
+  CNPT_TAX_PIC_NM      String?   @db.VarChar(50)
+  CNPT_TAX_PIC_DEPT_NM String?   @db.VarChar(50)
+  CNPT_TAX_PIC_JBPS_NM String?   @db.VarChar(50)
+  CNPT_TAX_PIC_TEL     String?   @db.VarChar(50)
+  CNPT_TAX_PIC_EMAIL   String?   @db.VarChar(50)
+  CNPT_RMRK            String?   @db.VarChar(2000)
+  USE_YN               String?   @default("Y") @db.Char(1)
+  DEL_YN               String?   @default("N") @db.Char(1)
+  CREATED_AT           DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY           String?   @db.VarChar(50)
+  UPDATED_AT           DateTime? @default(now()) @db.DateTime(0)
+  UPDATED_BY           String?   @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_cust100 {
+  ID             Int       @id @default(autoincrement())
+  CNPT_CD        String?   @db.VarChar(50)
+  DSCNT_RT       Decimal?  @db.Decimal(5, 2)
+  DSCNT_START_TM DateTime? @db.Date
+  DSCNT_END_TM   DateTime? @db.Date
+  CREATED_AT     DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY     String?   @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_user000 {
+  USER_ID       String    @id @db.VarChar(50)
+  USER_NM       String    @db.VarChar(100)
+  USER_TYPE     String?   @db.VarChar(20)
+  USER_PS       String?   @db.VarChar(400)
+  MBL_TELNO     String?   @db.VarChar(20)
+  EMAIL         String?   @db.VarChar(50)
+  PLANT_CD      String?   @db.VarChar(20)
+  DEPT_NM       String?   @db.VarChar(50)
+  CNPT_CD       String?   @db.VarChar(50)
+  USER_RMRK     String?   @db.Text
+  USER_POSITION String?   @db.VarChar(50)
+  IP            String?   @db.VarChar(50)
+  USE_YN        String?   @default("Y") @db.Char(1)
+  DEL_YN        String?   @default("N") @db.Char(1)
+  LAST_LOGIN_AT DateTime? @db.DateTime(0)
+  CREATED_AT    DateTime? @default(now()) @db.DateTime(0)
+  CREATED_BY    String?   @db.VarChar(50)
+  UPDATED_AT    DateTime? @default(now()) @db.DateTime(0)
+  UPDATED_BY    String?   @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_user100 {
+  USER_ID       String    @id @db.VarChar(50)
+  REFRESH_TOKEN String?   @db.VarChar(200)
+  EXPIRED_AT    DateTime? @db.DateTime(0)
+  CREATED_AT    DateTime? @default(now()) @db.DateTime(0)
+  UPDATED_AT    DateTime? @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_user_userlog000 {
+  LOG_ID             Int       @id @default(autoincrement())
+  USER_ID            String?   @db.VarChar(50)
+  PATH               String?   @db.VarChar(200)
+  HOST_NAME          String?   @db.VarChar(200)
+  PROGRAM_ACTION     String?   @db.VarChar(100)
+  PROGRAM_CONTROLLER String?   @db.VarChar(100)
+  PROGRAM_FUNCTION   String?   @db.VarChar(100)
+  CREATED_AT         DateTime? @default(now()) @db.DateTime(0)
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  email      String    @unique(map: "email") @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+}
