@@ -69,3 +69,16 @@ export const updatePasswordService = async (USER_ID, USER_PS) => {
   const hashedNPw = await bcrypt.hash(USER_PS, 10);
   return await userModel.updatePassword(USER_ID, hashedNPw, getKoreaTime());
 };
+
+/**
+ * 사용자 상세 정보
+ */
+export const findByIdUserService = async (USER_ID) => {
+  const user = await userModel.findByIdUser(USER_ID);
+  if (!user) {
+    const error = new Error("해당 사용자를 찾을 수 없습니다.");
+    error.status = 404;
+    throw error;
+  }
+  return user;
+};

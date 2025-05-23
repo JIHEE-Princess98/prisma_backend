@@ -1,7 +1,9 @@
 import {
   createUserService,
   updatePasswordService,
+  findByIdUserService,
 } from "../services/userService.js";
+import * as userModel from "../models/userModel.js";
 import { resultFormat } from "../utils/requestUtil.js";
 
 /***
@@ -54,6 +56,62 @@ export const updatePassword_Ctler = async (req, res, next) => {
         title: "비밀번호 변경",
         success: false,
         message: error.message,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "사용자 조회"
+ * URL : /api/user/list
+ */
+export const findAllUser_Ctler = async (req, res) => {
+  try {
+    const users = await userModel.findAllUser();
+
+    res.status(200).json(
+      resultFormat({
+        title: "사용자 목록 조회",
+        success: true,
+        message: "사용자 목록을 가져왔습니다.",
+        data: users,
+        total: users.length,
+      })
+    );
+  } catch (error) {
+    res.status(500).json(
+      resultFormat({
+        title: "사용자 목록 조회",
+        success: false,
+        message: `사용자 조회 실패 : ${error.message}`,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "사용자 상세조회"
+ * URL : /api/user/list/:USER_ID
+ */
+export const findByIdUser_Ctler = async (req, res) => {
+  const { USER_ID } = req.params;
+
+  try {
+    const user = await findByIdUserService(USER_ID);
+    res.status(200).json(
+      resultFormat({
+        title: "사용자 상세 조회",
+        success: true,
+        message: "사용자 정보를 조회했습니다.",
+        data: user,
+      })
+    );
+  } catch (error) {
+    res.status(error.status || 500).json(
+      resultFormat({
+        title: "사용자 상세 조회",
+        success: false,
+        message: `사용자 조회 실패 : ${error.message}`,
       })
     );
   }
