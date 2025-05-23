@@ -54,3 +54,10 @@ export const updateLastLoginAt = (USER_ID, time) => {
     },
   });
 };
+
+// 권한 생성
+export const createAuth = (authData) => {
+  return prisma.tb_mes_auth000.create({
+    data: authData,
+  });
+};

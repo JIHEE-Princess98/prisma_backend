@@ -82,3 +82,16 @@ export const findByIdUserService = async (USER_ID) => {
   }
   return user;
 };
+
+/**
+ * 사용자 정보 수정
+ */
+export const updateUserService = async (USER_ID, updateData, UPDATED_BY) => {
+  const existing = await userModel.findUserById(USER_ID);
+  if (!existing) {
+    const error = new Error("존재하지 않는 사용자입니다.");
+    error.status = 404;
+    throw error;
+  }
+  return await userModel.updateUser(USER_ID, updateData, UPDATED_BY);
+};

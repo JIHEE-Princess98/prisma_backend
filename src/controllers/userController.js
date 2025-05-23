@@ -2,6 +2,7 @@ import {
   createUserService,
   updatePasswordService,
   findByIdUserService,
+  updateUserService,
 } from "../services/userService.js";
 import * as userModel from "../models/userModel.js";
 import { resultFormat } from "../utils/requestUtil.js";
@@ -112,6 +113,41 @@ export const findByIdUser_Ctler = async (req, res) => {
         title: "사용자 상세 조회",
         success: false,
         message: `사용자 조회 실패 : ${error.message}`,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "사용자 수정"
+ * URL : /api/user/update
+ */
+export const updateUser_Ctler = async (req, res) => {
+  const { USER_ID } = req.params;
+  const updateData = req.body;
+  const UPDATED_BY = req.user.USER_ID;
+  console.log(UPDATED_BY);
+
+  try {
+    const updatedUser = await updateUserService(
+      USER_ID,
+      updateData,
+      UPDATED_BY
+    );
+    res.status(200).json(
+      resultFormat({
+        title: "사용자 수정",
+        success: true,
+        message: "사용자 정보가 수정되었습니다.",
+        data: updatedUser,
+      })
+    );
+  } catch (error) {
+    res.status(error.status || 500).json(
+      resultFormat({
+        title: "사용자 수정",
+        success: false,
+        message: `사용자 수정 실패 : ${error.message}`,
       })
     );
   }

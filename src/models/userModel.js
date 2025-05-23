@@ -41,6 +41,7 @@ export const findAllUser = () => {
   });
 };
 
+// 사용자 상세조회
 export const findByIdUser = (USER_ID) => {
   return prisma.tb_mes_user000.findMany({
     where: { USER_ID },
@@ -55,6 +56,20 @@ export const findByIdUser = (USER_ID) => {
       USER_RMRK: true,
       USER_POSITION: true,
       USE_YN: true,
+    },
+  });
+};
+
+//사용자 정보 수정
+export const updateUser = (USER_ID, updateData, UPDATED_BY) => {
+  return prisma.tb_mes_user000.update({
+    where: { USER_ID },
+    data: {
+      ...updateData,
+      ...(updateData.USE_YN === "N" && { DEL_YN: "Y" }),
+      ...(updateData.USE_YN === "Y" && { DEL_YN: "N" }),
+      UPDATED_AT: getKoreaTime(),
+      UPDATED_BY: UPDATED_BY,
     },
   });
 };
