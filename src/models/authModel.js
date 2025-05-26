@@ -1,9 +1,17 @@
 import prisma from "../config/db";
+import { getKoreaTime } from "../utils/dateUtil";
 
 // 사용자 조회(로그인용)
 export const findUserById = (USER_ID) => {
   return prisma.tb_mes_user000.findUnique({
     where: { USER_ID },
+  });
+};
+
+// 권한 조회
+export const findeAuthById = (GRP_AUTH_CD) => {
+  return prisma.tb_mes_auth000.findUnique({
+    where: { GRP_AUTH_CD },
   });
 };
 
@@ -93,7 +101,18 @@ export const findAllAuth = () => {
 };
 
 // 권한 수정
-export const updateAuth = () => {};
+export const updateAuth = async (GRP_AUTH_CD, updateData, UPDATED_BY) => {
+  return prisma.tb_mes_auth000.update({
+    where: { GRP_AUTH_CD },
+    data: {
+      ...updateData,
+      ...(updateData.USE_YN === "N" && { DEL_YN: "Y" }),
+      ...(updateData.USE_YN === "Y" && { DEL_YN: "N" }),
+      UPDATED_AT: getKoreaTime(),
+      UPDATED_BY: UPDATED_BY,
+    },
+  });
+};
 
 // 권한별 사용자 생성
 export const connectUsertoAuth = (GRP_AUTH_CD, USER_ID, time, CREATED_BY) => {
@@ -103,6 +122,66 @@ export const connectUsertoAuth = (GRP_AUTH_CD, USER_ID, time, CREATED_BY) => {
       USER_ID,
       CREATED_AT: time,
       CREATED_BY,
+    },
+  });
+};
+
+// 권한별 사용자 목록
+export const findByAuthUser = async (GRP_AUTH_CD) => {
+  return prisma.tb_mes_auth010.findMany({
+    where: { GRP_AUTH_CD },
+    select: { USER_ID: true },
+  });
+};
+export const findByIdUser = async (userIds) => {
+  return prisma.tb_mes_user000.findMany({
+    where: {
+      USER_ID: { in: userIds },
+    },
+    select: {
+      USER_ID: true,
+      USER_NM: true,
+      EMAIL: true,
+      DEPT_NM: true,
+      USER_TYPE: true,
+    },
+  });
+};
+
+//권한별 사용자 삭제
+export const deleteAuthUser = async (GRP_AUTH_CD, USER_ID) => {
+  return prisma.tb_mes_auth010.delete({
+    where: {
+      GRP_AUTH_CD_USER_ID: {
+        GRP_AUTH_CD,
+        USER_ID,
+      },
+    },
+  });
+};
+
+// 권한이 부여되지 않은 사용자 조회
+export const findUserNotInAuth = async () => {
+  const authUsers = await prisma.tb_mes_auth010.findMany({
+    select: { USER_ID: true },
+  });
+
+  const userIdInAuth = authUsers.map((data) => data.USER_ID);
+
+  return prisma.tb_mes_user000.findMany({
+    where: {
+      USER_ID: {
+        notIn: userIdInAuth.length > 0 ? userIdInAuth : ["___EMPTY___"],
+      },
+      DEL_YN: "N",
+    },
+    select: {
+      USER_ID: true,
+      USER_NM: true,
+      EMAIL: true,
+      DEPT_NM: true,
+      USER_TYPE: true,
+      USE_YN: true,
     },
   });
 };

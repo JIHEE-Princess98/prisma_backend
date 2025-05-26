@@ -92,6 +92,21 @@ export const createAuthService = async (authData, createdBy) => {
   return await authModel.createAuth(newAuthData);
 };
 
+// 권한수정
+export const updateAuthService = async (
+  GRP_AUTH_CD,
+  updateData,
+  UPDATED_BY
+) => {
+  const existing = await authModel.findeAuthById(GRP_AUTH_CD);
+  if (!existing) {
+    const error = new Error("존재하지 않는 권한값입니다.");
+    error.status = 404;
+    throw error;
+  }
+  return await authModel.updateAuth(GRP_AUTH_CD, updateData, UPDATED_BY);
+};
+
 // 권한별 사용자 생성
 export const connectUsertoAuthService = async (
   USER_ID,
@@ -122,4 +137,25 @@ export const connectUsertoAuthService = async (
     getKoreaTime(),
     createBy
   );
+};
+
+// 권한별 사용자 조회
+export const findByAuthUserService = async (GRP_AUTH_CD) => {
+  const idList = await authModel.findByAuthUser(GRP_AUTH_CD);
+  const userIds = idList.map((data) => data.USER_ID);
+
+  if (userIds.length === 0) return [];
+
+  const users = await authModel.findByIdUser(userIds);
+  return users;
+};
+
+// 권한별 사용자 삭제
+export const deleteAuthUserService = async (GRP_AUTH_CD, USER_ID) => {
+  return await authModel.deleteAuthUser(GRP_AUTH_CD, USER_ID);
+};
+
+// 권한이 부여되지 않은 사용자 리스트
+export const findUserNotInAuthService = async () => {
+  return await authModel.findUserNotInAuth();
 };

@@ -126,7 +126,6 @@ export const updateUser_Ctler = async (req, res) => {
   const { USER_ID } = req.params;
   const updateData = req.body;
   const UPDATED_BY = req.user.USER_ID;
-  console.log(UPDATED_BY);
 
   try {
     const updatedUser = await updateUserService(
