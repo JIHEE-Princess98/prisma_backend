@@ -6,7 +6,9 @@ import {
   verifyRefreshToken,
 } from "../utils/jwtUtil";
 import * as authModel from "../models/authModel";
+import * as userModel from "../models/userModel";
 import { getKoreaTime } from "../utils/dateUtil";
+import prisma from "../config/db";
 
 //로그인
 export const loginService = async (USER_ID, USER_PS) => {
@@ -88,4 +90,36 @@ export const createAuthService = async (authData, createdBy) => {
   };
 
   return await authModel.createAuth(newAuthData);
+};
+
+// 권한별 사용자 생성
+export const connectUsertoAuthService = async (
+  USER_ID,
+  GRP_AUTH_CD,
+  createBy
+) => {
+  const user = await userModel.findByIdUser(USER_ID);
+  if (!user) {
+    const error = new Error("해당 사용자가 존재 하지 않습니다.");
+    error.status = 404;
+    throw error;
+  }
+
+  //중복 권한 방지
+  const exists = await prisma.tb_mes_auth010.findUnique({
+    where: { GRP_AUTH_CD_USER_ID: { GRP_AUTH_CD, USER_ID } },
+  });
+
+  if (exists) {
+    const error = new Error("이미 해당 권한이 부여된 사용자입니다.");
+    error.status = 400;
+    throw error;
+  }
+
+  return await authModel.connectUsertoAuth(
+    GRP_AUTH_CD,
+    USER_ID,
+    getKoreaTime(),
+    createBy
+  );
 };

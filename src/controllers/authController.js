@@ -3,6 +3,7 @@ import {
   reissueAccessTokenService,
   logoutService,
   createAuthService,
+  connectUsertoAuthService,
 } from "../services/authService.js";
 import * as authModel from "../models/authModel";
 import { resultFormat } from "../utils/requestUtil.js";
@@ -156,6 +157,39 @@ export const findAllAuth_Ctler = async (req, res) => {
         title: "권한 목록 조회",
         success: false,
         message: `권한 조회 실패 : ${error.message}`,
+      })
+    );
+  }
+};
+
+/***
+ * NAME: "권한별 사용자 등록"
+ * URL : /api/auth/list
+ */
+export const connectUsertoAuth_Ctler = async (req, res) => {
+  const { USER_ID, GRP_AUTH_CD } = req.body;
+  const createdBy = req.user.USER_ID;
+
+  try {
+    const result = await connectUsertoAuthService(
+      USER_ID,
+      GRP_AUTH_CD,
+      createdBy
+    );
+    res.status(200).json(
+      resultFormat({
+        title: "권한 부여",
+        success: true,
+        message: "사용자에게 권한이 부여되었습니다.",
+        data: result,
+      })
+    );
+  } catch (error) {
+    res.status(error.status || 500).json(
+      resultFormat({
+        title: "권한 부여 실패",
+        success: false,
+        message: error.message,
       })
     );
   }

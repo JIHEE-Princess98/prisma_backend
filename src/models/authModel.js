@@ -91,3 +91,18 @@ export const findAllAuth = () => {
     },
   });
 };
+
+// 권한 수정
+export const updateAuth = () => {};
+
+// 권한별 사용자 생성
+export const connectUsertoAuth = (GRP_AUTH_CD, USER_ID, time, CREATED_BY) => {
+  return prisma.tb_mes_auth010.create({
+    data: {
+      GRP_AUTH_CD,
+      USER_ID,
+      CREATED_AT: time,
+      CREATED_BY,
+    },
+  });
+};
