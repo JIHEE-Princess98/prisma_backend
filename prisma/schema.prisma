@@ -43,42 +43,21 @@ model tb_mes_auth020 {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_mes_cust000 {
-  CNPT_CD              String    @id @db.VarChar(50)
-  CNPT_NM              String    @db.VarChar(50)
-  CEO_NM               String?   @db.VarChar(50)
-  CNPT_TEL             String?   @db.VarChar(11)
-  CNPT_EMAIL           String?   @db.VarChar(50)
-  BRNO                 String?   @db.VarChar(10)
-  CNPT_ADDR            String?   @db.VarChar(200)
-  CNPT_DADDR           String?   @db.VarChar(200)
-  CNPT_PIC_NM          String?   @db.VarChar(50)
-  CNPT_PIC_DEPT_NM     String?   @db.VarChar(50)
-  CNPT_PIC_JBPS_NM     String?   @db.VarChar(50)
-  CNPT_PIC_TEL         String?   @db.VarChar(50)
-  CNPT_PIC_EMAIL       String?   @db.VarChar(50)
-  CNPT_TAX_PIC_NM      String?   @db.VarChar(50)
-  CNPT_TAX_PIC_DEPT_NM String?   @db.VarChar(50)
-  CNPT_TAX_PIC_JBPS_NM String?   @db.VarChar(50)
-  CNPT_TAX_PIC_TEL     String?   @db.VarChar(50)
-  CNPT_TAX_PIC_EMAIL   String?   @db.VarChar(50)
-  CNPT_RMRK            String?   @db.VarChar(2000)
-  USE_YN               String?   @default("Y") @db.Char(1)
-  DEL_YN               String?   @default("N") @db.Char(1)
-  CREATED_AT           DateTime? @default(now()) @db.DateTime(0)
-  CREATED_BY           String?   @db.VarChar(50)
-  UPDATED_AT           DateTime? @default(now()) @db.DateTime(0)
-  UPDATED_BY           String?   @db.VarChar(50)
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_mes_cust100 {
-  ID             Int       @id @default(autoincrement())
-  CNPT_CD        String?   @db.VarChar(50)
-  DSCNT_RT       Decimal?  @db.Decimal(5, 2)
-  DSCNT_START_TM DateTime? @db.Date
-  DSCNT_END_TM   DateTime? @db.Date
-  CREATED_AT     DateTime? @default(now()) @db.DateTime(0)
-  CREATED_BY     String?   @db.VarChar(50)
+  CUST_CD       String    @id @db.VarChar(20)
+  CUST_NM       String    @db.VarChar(100)
+  CEO_NM        String?   @db.VarChar(50)
+  CEO_TEL       String?   @db.VarChar(20)
+  FAX_NO        String?   @db.VarChar(20)
+  CUST_TYPE     String?   @db.VarChar(20)
+  BIZ_NO        String?   @db.VarChar(20)
+  BIZ_TYPE      String?   @db.VarChar(50)
+  BIZ_CONDITION String?   @db.VarChar(50)
+  USE_YN        String?   @default("Y") @db.Char(1)
+  ZIP_CODE      String?   @db.VarChar(10)
+  ADDR          String?   @db.VarChar(255)
+  ADDR_DETAIL   String?   @db.VarChar(255)
+  REG_DT        DateTime? @default(now()) @db.DateTime(0)
+  MOD_DT        DateTime? @default(now()) @db.DateTime(0)
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
