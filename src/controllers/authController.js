@@ -32,6 +32,7 @@ export const login_Ctler = async (req, res) => {
         message: "로그인 성공",
         data: {
           USER_ID: user.USER_ID,
+          CNPT_CD: user.CNPT_CD,
           TOKEN: {
             accessToken,
             refreshToken,

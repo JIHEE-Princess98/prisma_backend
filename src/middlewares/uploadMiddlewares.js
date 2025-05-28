@@ -1,7 +1,6 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { getKoreaTime } from "../utils/dateUtil";
 
 ["uploads", "uploads/files", "uploads/images"].forEach((dir) => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);

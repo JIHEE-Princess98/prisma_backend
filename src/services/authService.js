@@ -20,6 +20,7 @@ export const loginService = async (USER_ID, USER_PS) => {
 
   const payload = {
     USER_ID: user.USER_ID,
+    CNPT_CD: user.CNPT_CD,
   };
 
   const accessToken = generateAccessToken(payload);
@@ -46,6 +47,7 @@ export const reissueAccessTokenService = async (refreshToken) => {
 
   const newAccessToken = generateAccessToken({
     USER_ID: decoded.USER_ID,
+    CNPT_CD: decoded.CNPT_CD,
   });
 
   return newAccessToken;
