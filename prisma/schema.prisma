@@ -121,3 +121,35 @@ model tb_mes_menu000 {
   UPDATED_AT     DateTime? @default(now()) @db.DateTime(0)
   UPDATED_BY     String?   @db.VarChar(50)
 }
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_quote000 {
+  QUOTE_CD    String    @id @db.VarChar(50)
+  TITLE       String    @db.VarChar(255)
+  CLIENT_CD   String    @db.VarChar(50)
+  TOTAL_PRICE Decimal?  @db.Decimal(15, 2)
+  REG_DT      DateTime? @default(now()) @db.DateTime(0)
+  MOD_DT      DateTime? @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_quote010 {
+  FILE_ID   String    @id @db.VarChar(50)
+  QUOTE_CD  String    @db.VarChar(50)
+  FILE_NAME String    @db.VarChar(255)
+  FILE_PATH String    @db.VarChar(500)
+  FILE_SIZE Int?
+  FILE_TYPE String?   @db.VarChar(100)
+  REG_DT    DateTime? @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_mes_quote020 {
+  IMG_ID   String    @id @db.VarChar(50)
+  QUOTE_CD String    @db.VarChar(50)
+  IMG_NAME String    @db.VarChar(255)
+  IMG_PATH String    @db.VarChar(500)
+  IMG_SIZE Int?
+  IMG_TYPE String?   @db.VarChar(100)
+  REG_DT   DateTime? @default(now()) @db.DateTime(0)
+}
